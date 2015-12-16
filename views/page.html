@@ -1,0 +1,14 @@
+{>"base.html" /}
+
+{<content}
+<article>
+    <div class="md">
+        {@markdown content=post.content /}
+    </div class="md">
+</article>
+{/content}
+
+{<nav}
+    {#post.meta.previous}<a href="{@linkto/}">previous</a>{/post.meta.previous}
+    {#post.meta.next}<a href="{@linkto /}">next</a>{/post.meta.next}
+{/nav}

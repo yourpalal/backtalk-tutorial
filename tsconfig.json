@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "isolatedModules": false,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "filesGlob": [
+        "lib/**/*.ts",
+        "lib/**/*.tsx",
+        "content/**/*.tsx",
+        "!node_modules/**"
+    ],
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "files": [
+        "lib/typings/react-ace.d.ts",
+        "lib/typings/react/react-dom.d.ts",
+        "lib/typings/react/react.d.ts",
+        "lib/typings/tsd.d.ts",
+        "lib/editor.tsx",
+        "lib/example.tsx"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}

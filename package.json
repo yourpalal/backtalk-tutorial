@@ -1,0 +1,29 @@
+{
+  "name": "backtalk-tutorial",
+  "version": "0.0.0",
+  "description": "a tutorial for backtalk",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "AGPL-3.0+",
+  "dependencies": {
+    "backtalk": "^0.2.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-connect": "^2.2.0",
+    "gulp-gh-pages": "^0.5.4",
+    "gulp-indexify": "^0.1.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sass": "^2.1.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-typescript": "^2.10.0",
+    "react": "^0.14.3",
+    "react-ace": "^2.8.0",
+    "react-dom": "^0.14.3",
+    "squick": "0.0.4",
+    "vinyl-buffer": "^1.0.0"
+  }
+}
