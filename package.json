@@ -25,7 +25,7 @@
     "react": "^0.14.3",
     "react-ace": "^2.8.0",
     "react-dom": "^0.14.3",
-    "squick": "0.0.4",
+    "squick": "^0.1.0",
     "tsify": "^0.13.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
