@@ -1,16 +1,19 @@
 var autoprefixer = require("gulp-autoprefixer"),
+    browserify = require("browserify"),
     buffer = require("vinyl-buffer"),
     connect = require("gulp-connect"),
     ghPages = require("gulp-gh-pages"),
     gulp = require("gulp"),
+    gutil = require("gulp-util"),
     indexify = require("gulp-indexify"),
     notify = require("gulp-notify"),
     path = require("path"),
     plumber = require("gulp-plumber"),
     sass = require("gulp-sass"),
+    source = require("vinyl-source-stream"),
     sourcemaps = require("gulp-sourcemaps"),
     Squick = require("squick"),
-    typescript = require("gulp-typescript")
+    tsify = require("tsify")
     ;
 
 
@@ -23,8 +26,8 @@ var paths = {
     content: ["content/**/*.md"],
     views: "views/**/*.html",
 
-    scripts: "lib/**/*.ts",
-    out_scripts: "output/lib"
+    scripts: ["lib/**/*.ts", "lib/**/*.tsx"],
+    scripts_entry: "lib/main.ts",
 };
 
 gulp.task("extras", function() {
@@ -33,23 +36,20 @@ gulp.task("extras", function() {
         .pipe(gulp.dest(paths.out));
 });
 
-var project = typescript.createProject({
-    sourceMaps: true,
-    sortOutput: true,
-    noExternalResolve: false,
-    target: 'ES5',
-    module: 'commonjs',
-    noEmitOnError: true,
-    removeComments: false,
-    declaration: true
-});
-
 gulp.task("scripts", function() {
-    return gulp.src(paths.scripts)
-        .pipe(sourcemaps.init())
-        .pipe(typescript(project))
-        .js.pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.out_scripts))
+    return browserify({
+            entries: paths.scripts_entry,
+            debug: true,
+        })
+        .plugin(tsify)
+        .bundle()
+        .pipe(plumber({ errorHandler: function(err) {
+          notify.onError()(err);
+          gutil.log('Browserify Error', err);
+          this.emit("end");
+        }}))
+        .pipe(source("app.js"))
+        .pipe(gulp.dest(paths.out))
         .pipe(connect.reload());
 });
 
