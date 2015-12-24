@@ -10,8 +10,14 @@ header {
     }
 }
 
-.ace {
+.editor {
     width: $example_width;
+
+    .reset {
+        float: right;
+        padding: 0.2em 0.5em;
+        margin-bottom: 0.3em;
+    }
 }
 
 .example {

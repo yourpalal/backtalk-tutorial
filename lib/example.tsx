@@ -76,6 +76,13 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         this.updateResult(value);
     }
 
+    resetCode() {
+        this.setState({
+            value: this.props.source.trim() + "\n" + "\n"
+        });
+        this.updateResult(this.props.source);
+    }
+
     renderError() {
         let {err} = this.state;
 
@@ -97,6 +104,7 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         let {value, result, err} = this.state;
 
         return <div className="example">
+            <button className="reset" onClick={() => this.resetCode()}>reset</button>
             <EditorComponent key="editor" source={value} onChange={(v) => this.onCodeChange(v)} />
             {!err ? "" :
                 <div className="errors">

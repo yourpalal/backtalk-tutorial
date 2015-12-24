@@ -18,8 +18,9 @@ export class EditorComponent extends React.Component<EditorProps, EditorState> {
     render() {
         let {source, onChange} = this.props;
 
-        var e = <AceEditor value={source} onChange={(v) => {console.log(v); onChange(v);}} maxLines={5} />;
-        return (<div className="ace">{e}
+        return (<div className="editor">
+            <label>code</label>
+            <AceEditor value={source} onChange={onChange} maxLines={5} />
         </div>);
     }
 }
