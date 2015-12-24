@@ -36,6 +36,13 @@ gulp.task("extras", function() {
         .pipe(gulp.dest(paths.out));
 });
 
+
+var browserifyError = function(err) {
+    notify.onError()(err);
+    gutil.log('Browserify Error', err);
+    this.emit("end");
+};
+
 gulp.task("scripts", function() {
     return browserify({
             entries: paths.scripts_entry,
@@ -43,11 +50,8 @@ gulp.task("scripts", function() {
         })
         .plugin(tsify)
         .bundle()
-        .pipe(plumber({ errorHandler: function(err) {
-          notify.onError()(err);
-          gutil.log('Browserify Error', err);
-          this.emit("end");
-        }}))
+        .on("error", browserifyError)
+        .pipe(plumber({ errorHandler: browserifyError }))
         .pipe(source("app.js"))
         .pipe(gulp.dest(paths.out))
         .pipe(connect.reload());
