@@ -2,7 +2,7 @@
 /// <reference path="./typings/react-ace.d.ts"/>
 
 import {EditorComponent} from "./editor";
-import {Evaluator, Immediate} from "backtalk";
+import {Evaluator, Immediate, ParseError} from "backtalk";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -76,23 +76,37 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         this.updateResult(value);
     }
 
+    renderError() {
+        let {err} = this.state;
+
+        if (!err) {
+            return "";
+        }
+
+        if (!(err instanceof ParseError)) {
+            return err.toString();
+        }
+
+        return <ul>{err.errors.map((e) =>
+            <li key={e.line}>line {e.line}</li>
+        )}</ul>;
+    }
+
     render() {
         let {bt, example, source} = this.props;
-        let {value, result} = this.state;
+        let {value, result, err} = this.state;
 
-        let parts = [
+        return <div className="example">
             <EditorComponent key="editor" source={value} onChange={(v) => this.onCodeChange(v)} />
-        ];
-        if (example.showResult) {
-            parts.push(
-                <div className="result" key="result">
+            {!err ? "" :
+                <div className="errors">
+                    <label>errors</label>
+                    {this.renderError()}
+                </div>}
+            {!example.showResult ? "": <div className="result" key="result">
                     <label htmlFor="result">result</label>
                     <output name="result">{result}</output>
-                </div>
-            );
-        }
-        return <div className="example">
-            {parts}
+                </div>}
         </div>;
     }
 };
