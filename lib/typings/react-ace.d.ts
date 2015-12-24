@@ -5,9 +5,11 @@ declare module "react-ace" {
         value?: string;
         mode?: string;
         theme?: string;
-        onChange?: Function;
         name?: string;
         editorProps?: any;
+        maxLines?: number;
+
+        onChange?: Function;
     }
 
     interface AceEditorState {

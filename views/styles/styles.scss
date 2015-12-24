@@ -1,3 +1,27 @@
 @import "bourbon/bourbon";
 @import "base/base";
 @import "neat/neat";
+
+$example_width: 500px;
+
+.ace {
+    width: $example_width;
+}
+
+.example {
+    width: $example_width;
+    padding: 1em;
+    box-sizing: content-box;
+
+    background-color: #EFF;
+
+    .result output {
+        width: 100%;
+        padding: 0.3em;
+        box-sizing: border-box;
+
+        display: block;
+        border: thin solid grey;
+        background-color: white;
+    }
+}

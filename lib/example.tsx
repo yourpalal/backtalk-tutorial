@@ -2,7 +2,7 @@
 /// <reference path="./typings/react-ace.d.ts"/>
 
 import {EditorComponent} from "./editor";
-import {Evaluator} from "backtalk";
+import {Evaluator, Immediate} from "backtalk";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -11,20 +11,88 @@ import * as examples from "./examples";
 
 export interface ExampleProps {
     bt: Evaluator;
-    source: string;
     example: examples.Example;
+    source: string;
 };
 
 export interface ExampleState {
-
+    result?: any;
+    value?: string;
+    err?: any;
 };
 
 export class ExampleComponent extends React.Component<ExampleProps, ExampleState> {
-    render() {
-        let {bt, source} = this.props;
+    update: number;
 
+    constructor(props: ExampleProps, context) {
+        super(props, context);
+
+        this.update = 0;
+
+        this.state = {
+            result: null,
+            value: props.source.trim() + "\n" + "\n"
+        };
+    }
+
+    componentDidMount() {
+        this.updateResult(this.props.source);
+    }
+
+
+    updateResult(value) {
+        let updating = ++this.update;
+
+        let {bt} = this.props;
+
+        Immediate.wrap(() => {
+            let node = bt.compile(value, this.props.example.name);
+            return bt.runForResult(this.props.example.name);
+        }).then((result) => {
+            if (updating != this.update) {
+                return;
+            }
+
+            this.setState({
+                result: result,
+                err: null
+            });
+        }, (err) => {
+            if (updating != this.update) {
+                return;
+            }
+
+            this.setState({
+                result: null,
+                err: err
+            });
+        });
+    }
+
+    onCodeChange(value) {
+        this.setState({
+            value: value
+        });
+        this.updateResult(value);
+    }
+
+    render() {
+        let {bt, example, source} = this.props;
+        let {value, result} = this.state;
+
+        let parts = [
+            <EditorComponent key="editor" source={value} onChange={(v) => this.onCodeChange(v)} />
+        ];
+        if (example.showResult) {
+            parts.push(
+                <div className="result" key="result">
+                    <label htmlFor="result">result</label>
+                    <output name="result">{result}</output>
+                </div>
+            );
+        }
         return <div className="example">
-            <EditorComponent source={source} />
+            {parts}
         </div>;
     }
 };
