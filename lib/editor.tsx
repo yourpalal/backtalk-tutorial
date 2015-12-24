@@ -20,7 +20,7 @@ export class EditorComponent extends React.Component<EditorProps, EditorState> {
 
         return (<div className="editor">
             <label>code</label>
-            <AceEditor value={source} onChange={onChange} maxLines={10} />
+            <AceEditor value={source} onChange={onChange} maxLines={30} />
         </div>);
     }
 }

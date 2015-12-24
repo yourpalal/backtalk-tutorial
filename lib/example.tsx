@@ -37,9 +37,9 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
     }
 
     // api for examples
-    write(s: string) {
+    write(s: any) {
         this.setState((state) => {
-            return {output: state.output.concat([s])};
+            return {output: state.output.concat([s.toString()])};
         });
     }
 
@@ -47,11 +47,13 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         this.setState({
             output: []
         });
-        let {bt} = this.props;
+        let {bt, example} = this.props;
+
+        example.refreshScope(bt.scope);
 
         Immediate.wrap(() => {
-            let node = bt.compile(value, this.props.example.name);
-            return bt.runForResult(this.props.example.name);
+            let node = bt.compile(value, example.name);
+            return bt.runForResult(example.name);
         }).then((result) => {
             this.setState({
                 result: result,
