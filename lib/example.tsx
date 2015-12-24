@@ -19,49 +19,45 @@ export interface ExampleState {
     result?: any;
     value?: string;
     err?: any;
+    output?: string[];
 };
 
 export class ExampleComponent extends React.Component<ExampleProps, ExampleState> {
-    update: number;
-
     constructor(props: ExampleProps, context) {
         super(props, context);
 
-        this.update = 0;
-
         this.state = {
             result: null,
-            value: props.source.trim() + "\n" + "\n"
+            value: props.source.trim(),
+            output: []
         };
+
+        props.bt.scope.env["stdout"] = this;
+        props.bt.scope.env["example"] = this;
     }
 
-    componentDidMount() {
-        this.updateResult(this.props.source);
+    // api for examples
+    write(s: string) {
+        this.setState((state) => {
+            return {output: state.output.concat([s])};
+        });
     }
-
 
     updateResult(value) {
-        let updating = ++this.update;
-
+        this.setState({
+            output: []
+        });
         let {bt} = this.props;
 
         Immediate.wrap(() => {
             let node = bt.compile(value, this.props.example.name);
             return bt.runForResult(this.props.example.name);
         }).then((result) => {
-            if (updating != this.update) {
-                return;
-            }
-
             this.setState({
                 result: result,
                 err: null
             });
         }, (err) => {
-            if (updating != this.update) {
-                return;
-            }
-
             this.setState({
                 result: null,
                 err: err
@@ -69,16 +65,23 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         });
     }
 
+    // events
+
+    componentDidMount() {
+        this.updateResult(this.props.source);
+    }
+
     onCodeChange(value) {
         this.setState({
-            value: value
+            value: value,
+            output: []
         });
         this.updateResult(value);
     }
 
     resetCode() {
         this.setState({
-            value: this.props.source.trim() + "\n" + "\n"
+            value: this.props.source.trim()
         });
         this.updateResult(this.props.source);
     }
@@ -115,6 +118,12 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
                     <label htmlFor="result">result</label>
                     <output name="result">{result}</output>
                 </div>}
+            {!example.showOutput ? "": <div className="output">
+                <label htmlFor="output">output</label>
+                <output name="output">{this.state.output.map((line, i) =>
+                    <div key={i}>{line}</div>
+                )}</output>
+            </div>}
         </div>;
     }
 };
