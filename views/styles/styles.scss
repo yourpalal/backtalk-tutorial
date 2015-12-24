@@ -4,10 +4,55 @@
 
 $example_width: 500px;
 
+// color scheme
+$dark-neutral: #B27B96;
+$light-accent: #FFE72D;
+$sharp-accent: #FF67B2;
+$light-calm: #3EBACC;
+$dark-calm: #3FA4B2;
+$light-grey: #EFEFEF;
+
 header {
-    nav a {
-        display: block;
+    width: 100%;
+    color: $dark-neutral;
+    border-bottom: thin solid $light-accent;
+    background-image: url(background.png);
+
+    text-align: center;
+
+    h1 {
+        font-size: 200%;
     }
+
+    nav a {
+        margin-right: 3em;
+    }
+}
+
+article {
+    @include outer-container;
+    padding-top: 2em;
+
+    .md {
+        ul {
+            @extend %default-ul;
+        }
+
+        ol {
+            @extend %default-ol;
+        }
+    }
+}
+
+code {
+    background-color: $light-grey;
+    padding: 0 0.3em;
+}
+
+pre {
+    border-left: thick solid $dark-neutral;
+    width: $example_width;
+    background-color: $light-grey;
 }
 
 .editor {
@@ -17,6 +62,7 @@ header {
         float: right;
         padding: 0.2em 0.5em;
         margin-bottom: 0.3em;
+        background-color: $dark-calm;
     }
 }
 
@@ -25,15 +71,23 @@ header {
     padding: 1em;
     box-sizing: content-box;
 
-    background-color: #EFF;
+    border-left: thick solid $dark-neutral;
 
-    .result output {
+    output {
         width: 100%;
         padding: 0.3em;
         box-sizing: border-box;
 
         display: block;
-        border: thin solid grey;
+        border: thin solid $light-calm;
         background-color: white;
+    }
+
+    .errors {
+        label {
+            color: black;
+        }
+
+        color: $sharp-accent;
     }
 }

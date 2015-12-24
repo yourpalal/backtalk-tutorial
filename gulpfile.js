@@ -20,7 +20,7 @@ var autoprefixer = require("gulp-autoprefixer"),
 var paths = {
     out: "output/",
     out_src: "output/**/*",
-    extras: ["extras/**/*", "content/**/*.png"],
+    extras: ["extras/**/*", "content/**/*.png", "views/styles/**/*.png"],
     styles: ["views/styles/styles.scss"],
 
     content: ["content/**/*.md"],
