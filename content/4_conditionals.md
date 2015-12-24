@@ -1,7 +1,9 @@
 {
-    "template": "page.html"
+    "template": "page.html",
+    "previous": ["3_actions.md"]
 }
 
+# Conditionals
 Welcome to the BackTalk Tutorial!
 
 Over the course of this interactive tutorial, you will be introduced to the

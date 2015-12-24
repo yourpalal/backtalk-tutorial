@@ -79,6 +79,7 @@ gulp.task("squick", function() {
     return gulp.src(paths.content)
       .pipe(plumber({ errorHandler: function(err) {
           notify.onError()(err);
+          console.log(err.stack);
           this.emit("end");
         }}))
       .pipe(new Squick({

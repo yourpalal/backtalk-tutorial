@@ -4,6 +4,12 @@
 
 $example_width: 500px;
 
+header {
+    nav a {
+        display: block;
+    }
+}
+
 .ace {
     width: $example_width;
 }

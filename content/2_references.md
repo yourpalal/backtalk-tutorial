@@ -1,8 +1,8 @@
 {
     "title": "References",
     "template": "page.html",
-    "next": "3_actions.md",
-    "previous": "1_what_when_why.md"
+    "next": ["3_actions.md"],
+    "previous": ["1_what_when_why.md"]
 }
 
 # references
@@ -18,8 +18,8 @@ or this
 or any other bunch of letters and underscores, as long as it starts with a `$`.
 
 
+In the following example, you can use a reference to pick a friend to describe. Try switching `$suzy` for `$harry` or `$bingo` in the example below:
+
     {simple_example}
 
     $suzy
-
-Try switching `$suzy` for `$harry` or `$bingo` in the example above
