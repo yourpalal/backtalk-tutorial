@@ -1,4 +1,4 @@
-import {Scope, StdLib} from "backtalk";
+import {Library, Scope, StdLib} from "backtalk";
 
 export interface Example {
     name: string;
@@ -85,55 +85,91 @@ class Friend {
     }
 }
 
+var friendsLib = Library.create()
+    .ref("suzy", () => new Friend("Suzy", {
+        greeting: "programming is fun!",
+
+        hungry: "yum, thanks!",
+        notHungry: "blech",
+
+        notBored: "I don't need that",
+        getBook: "oh, thanks I guess",
+        getVideoGame: "weee!! pew pew pew"
+    }))
+    .ref("harry", () => new Friend("Harry", {
+        greeting: "reading is fun!",
+
+        hungry: "om nom nom",
+        notHungry: "I guess I could eat",
+
+        notBored: "*ignores you*",
+        getBook: "WOAH I haven't read that one!",
+        getVideoGame: "I hope this has a good story..."
+    }))
+    .ref("bingo", () => new Friend("doggy", {
+        greeting: "woof!",
+
+        hungry: "chomp chomp",
+        notHungry: "chomp chomp",
+
+        notBored: "*looks confused*",
+        getBook: "bark bark! *rips up book*",
+        getVideoGame: "bark bark!"
+    }))
+    .command("say hi", ["say hi to $:friend"])
+        .impl((args, self) => {
+            let friend = args.getObject("friend") as any;
+            self.scope.env.stdout.write(`you: "Hi ${friend.name}!"`);
+        })
+    .command("listen", ["listen to $:friend"])
+        .impl((args, self) => {
+            let friend = args.getObject("friend") as any;
+            self.scope.env.stdout.write(`${friend.name}: ${friend.messages.greeting}`);
+        })
+    .done()
+;
+
+var conditionalLib = Library.create()
+    .command("bored", ["$:friend is bored"])
+        .impl((args) => {
+            let friend = args.getObject("friend") as any;
+            return friend.bored;
+        })
+    .command("give gift", ["give $:friend a <book|video game>:toy"])
+        .impl((args, self) => {
+            let friend = args.getObject("friend") as any;
+            let scope = self.scope;
+            if (args.getNumber("toy") == 0) {
+                scope.env.stdout.write(`you: *gives ${friend.name} a book*`);
+                scope.env.stdout.write(friend.getBook());
+            } else {
+                scope.env.stdout.write(`you: *gives ${friend.name} a video game*`);
+                scope.env.stdout.write(friend.getVideoGame());
+            }
+        })
+    .command("hungry", ["$:friend is hungry"])
+        .impl((args) => {
+            let friend = args.getObject("friend") as any;
+            return friend.hungry;
+        })
+    .command("feed", ["feed $:friend"])
+        .impl((args, self) => {
+            let friend = args.getObject("friend") as any;
+            let scope = self.scope;
+            scope.env.stdout.write(`you: *feeds ${friend.name}*`);
+            scope.env.stdout.write(friend.getFed());
+        })
+    .done();
+
 addExample({
     name: "commands_example",
     prepareScope: (scope: Scope) => {
         StdLib.inScope(scope);
-
-        scope.addFunc(["say hi to $:friend"], (args) => {
-            let friend = args.getObject("friend") as any;
-            scope.env.stdout.write(`you: "Hi ${friend.name}!"`);
-        });
-
-        scope.addFunc(["listen to $:friend"], (args) => {
-            let friend = args.getObject("friend") as any;
-            scope.env.stdout.write(`${friend.name}: ${friend.messages.greeting}`);
-        });
+        friendsLib.addToScope(scope);
     },
 
     refreshScope: (scope: Scope) => {
-        scope.set("suzy", new Friend("Suzy", {
-            greeting: "programming is fun!",
-
-            hungry: "yum, thanks!",
-            notHungry: "blech",
-
-            notBored: "I don't need that",
-            getBook: "oh, thanks I guess",
-            getVideoGame: "weee!! pew pew pew"
-        }));
-        scope.set("harry", new Friend("Harry", {
-            greeting: "reading is fun!",
-
-            hungry: "om nom nom",
-            notHungry: "I guess I could eat",
-
-            notBored: "*ignores you*",
-            getBook: "WOAH I haven't read that one!",
-            getVideoGame: "I hope this has a good story..."
-        }));
-
-        scope.set("bingo", new Friend("doggy", {
-            greeting: "woof!",
-
-            hungry: "chomp chomp",
-            notHungry: "chomp chomp",
-
-            notBored: "*looks confused*",
-            getBook: "bark bark! *rips up book*",
-            getVideoGame: "bark bark!"
-        }));
-
+        friendsLib.addToScope(scope);
     },
 
     showResult: false,
@@ -144,33 +180,7 @@ addExample({
     name: "conditional_example",
     prepareScope: (scope: Scope) => {
         getExample("commands_example").prepareScope(scope);
-
-        scope.addFunc(["$:friend is bored"], function(args) {
-            let friend = args.getObject("friend") as any;
-            return friend.bored;
-        });
-
-        scope.addFunc(["give $:friend a <book|video game>:toy"], (args) => {
-            let friend = args.getObject("friend") as any;
-            if (args.getNumber("toy") == 0) {
-                scope.env.stdout.write(`you: *gives ${friend.name} a book*`);
-                scope.env.stdout.write(friend.getBook());
-            } else {
-                scope.env.stdout.write(`you: *gives ${friend.name} a video game*`);
-                scope.env.stdout.write(friend.getVideoGame());
-            }
-        });
-
-        scope.addFunc(["$:friend is hungry"], function(args) {
-            let friend = args.getObject("friend") as any;
-            return friend.hungry;
-        });
-
-        scope.addFunc(["feed $:friend"], (args) => {
-            let friend = args.getObject("friend") as any;
-            scope.env.stdout.write(`you: *feeds ${friend.name}*`);
-            scope.env.stdout.write(friend.getFed());
-        });
+        conditionalLib.addToScope(scope);
     },
 
     refreshScope(scope: Scope) {
