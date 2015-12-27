@@ -9,7 +9,7 @@
   "author": "",
   "license": "AGPL-3.0+",
   "dependencies": {
-    "backtalk": "^0.2.0",
+    "backtalk": "^0.3.0",
     "browserify": "^12.0.1",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
