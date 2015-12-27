@@ -108,7 +108,7 @@ gulp.task("squick", function() {
     ;
 });
 
-gulp.task('deploy', ["squick", "styles", "extras"], function() {
+gulp.task('deploy', ["squick", "styles", "extras", "scripts"], function() {
     return gulp.src(paths.out_src)
         .pipe(ghPages());
 });
@@ -130,4 +130,4 @@ gulp.task("watch", function() {
     gulp.watch(paths.scripts, ["scripts"]);
 });
 
-gulp.task("default", ["watch", "connect", "extras", "squick", "styles"]);
+gulp.task("default", ["watch", "connect", "extras", "squick", "styles", "scripts"]);
