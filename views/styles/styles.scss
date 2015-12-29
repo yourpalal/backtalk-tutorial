@@ -99,3 +99,18 @@ pre {
         color: $sharp-accent;
     }
 }
+
+.extras {
+    clear: both;
+    margin-bottom: 1em;
+}
+
+fieldset.friend {
+    display: inline;
+    padding: 0.2em;
+    margin: 0.2em;
+
+    input, label {
+        float: left;
+    }
+}

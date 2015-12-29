@@ -1,42 +1,6 @@
-import {Library, Scope, StdLib} from "backtalk";
+import {Library, Scope} from "backtalk";
 
-export interface Example {
-    name: string;
-    prepareScope(scope: Scope);
-    refreshScope(scope: Scope);
-
-    showResult: boolean;
-    showOutput: boolean;
-}
-
-let examples: {
-    [name: string]: Example
-} = {};
-
-export function getExample(name: string): Example {
-    return examples[name];
-};
-
-function addExample(ex: Example) {
-    examples[ex.name] = ex;
-}
-
-addExample({
-    name: "simple_example",
-    prepareScope: (scope: Scope) => {
-        scope.set("suzy", "suzy likes programming");
-        scope.set("harry", "harry likes to read");
-        scope.set("bingo", "bingo likes going for walks");
-    },
-
-    refreshScope: () => null,
-
-    showResult: true,
-    showOutput: false,
-});
-
-
-interface FriendMessages {
+export interface FriendMessages {
     description: string;
     greeting: string;
 
@@ -48,7 +12,7 @@ interface FriendMessages {
     getVideoGame: string;
 }
 
-class Friend {
+export class Friend {
     public hungry = true;
     public bored = true;
 
@@ -86,40 +50,47 @@ class Friend {
     }
 }
 
-var friendsLib = Library.create()
-    .ref("suzy", () => new Friend("Suzy", {
-        description: "suzy likes programming",
-        greeting: "programming is fun!",
+export var makeSuzy = () => new Friend("Suzy", {
+    description: "suzy likes programming",
+    greeting: "programming is fun!",
 
-        hungry: "yum, thanks!",
-        notHungry: "blech",
+    hungry: "yum, thanks!",
+    notHungry: "blech",
 
-        notBored: "I don't need that",
-        getBook: "oh, thanks I guess",
-        getVideoGame: "weee!! pew pew pew"
-    }))
-    .ref("harry", () => new Friend("Harry", {
-        description: "harry likes to read",
-        greeting: "reading is fun!",
+    notBored: "I don't need that",
+    getBook: "oh, thanks I guess",
+    getVideoGame: "weee!! pew pew pew"
+});
 
-        hungry: "om nom nom",
-        notHungry: "I guess I could eat",
+export var makeHarry = () => new Friend("Harry", {
+    description: "harry likes to read",
+    greeting: "reading is fun!",
 
-        notBored: "*ignores you*",
-        getBook: "WOAH I haven't read that one!",
-        getVideoGame: "I hope this has a good story..."
-    }))
-    .ref("bingo", () => new Friend("doggy", {
-        description: "bingo likes going for walks",
-        greeting: "woof!",
+    hungry: "om nom nom",
+    notHungry: "I guess I could eat",
 
-        hungry: "chomp chomp",
-        notHungry: "chomp chomp",
+    notBored: "*ignores you*",
+    getBook: "WOAH I haven't read that one!",
+    getVideoGame: "I hope this has a good story..."
+});
 
-        notBored: "*looks confused*",
-        getBook: "bark bark! *rips up book*",
-        getVideoGame: "bark bark!"
-    }))
+export var makeBingo = () => new Friend("Bingo", {
+    description: "bingo likes going for walks",
+    greeting: "woof!",
+
+    hungry: "chomp chomp",
+    notHungry: "chomp chomp",
+
+    notBored: "*looks confused*",
+    getBook: "bark bark! *rips up book*",
+    getVideoGame: "bark bark!"
+});
+
+// simple library that provides friend objects and basic commands
+export var friendsLib = Library.create()
+    .ref("suzy", makeSuzy)
+    .ref("harry", makeHarry)
+    .ref("bingo", makeBingo)
     .command("say hi", ["say hi to $:friend"])
         .impl((args, self) => {
             let friend = args.getObject("friend") as any;
@@ -133,7 +104,9 @@ var friendsLib = Library.create()
     .done()
 ;
 
-var conditionalLib = Library.create()
+// more advanced library that includes friendsLib and more commands
+// that can be useful for exploring conditional execution
+export var conditionalLib = Library.create()
     .command("bored", ["$:friend is bored"])
         .impl((args) => {
             let friend = args.getObject("friend") as any;
@@ -164,33 +137,3 @@ var conditionalLib = Library.create()
             scope.env.stdout.write(friend.getFed());
         })
     .done();
-
-addExample({
-    name: "commands_example",
-    prepareScope: (scope: Scope) => {
-        StdLib.inScope(scope);
-        friendsLib.addToScope(scope);
-    },
-
-    refreshScope: (scope: Scope) => {
-        friendsLib.addToScope(scope);
-    },
-
-    showResult: false,
-    showOutput: true
-});
-
-addExample({
-    name: "conditional_example",
-    prepareScope: (scope: Scope) => {
-        getExample("commands_example").prepareScope(scope);
-        conditionalLib.addToScope(scope);
-    },
-
-    refreshScope(scope: Scope) {
-        getExample("commands_example").refreshScope(scope);
-    },
-
-    showResult: false,
-    showOutput: true
-});

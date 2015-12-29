@@ -24,14 +24,17 @@
     "compileOnSave": false,
     "buildOnSave": false,
     "files": [
-        "lib/examples.ts",
+        "lib/friends.ts",
         "lib/main.ts",
         "lib/typings/react-ace.d.ts",
         "lib/typings/react/react-dom.d.ts",
         "lib/typings/react/react.d.ts",
         "lib/typings/tsd.d.ts",
         "lib/editor.tsx",
-        "lib/example.tsx"
+        "lib/example.tsx",
+        "lib/examples/conditional_example.tsx",
+        "lib/examples/friend_control.tsx",
+        "lib/examples/index.tsx"
     ],
     "atom": {
         "rewriteTsconfig": true

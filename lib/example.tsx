@@ -44,7 +44,9 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         });
     }
 
-    updateResult(value) {
+    updateResult(value?) {
+        value = value || this.state.value;
+
         this.setState({
             output: []
         });
@@ -115,6 +117,9 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         let editorName = `${example.name}_${name}`;
 
         return <div className="example">
+            <div className="extras">
+                {example.makeExtras(() => this.updateResult())}
+            </div>
             <button className="reset" onClick={() => this.resetCode()}>reset</button>
             <EditorComponent name={editorName} source={value} onChange={(v) => this.onCodeChange(v)} />
             {!err ? "" :
@@ -152,7 +157,7 @@ export function injectExamples() {
         // given example.
 
         let bt = new Evaluator();
-        let example = examples.getExample(exampleName);
+        let example = new examples[exampleName]();
         example.prepareScope(bt.scope);
 
         // make an example component and mount it, replacing the

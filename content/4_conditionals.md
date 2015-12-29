@@ -26,7 +26,7 @@ In this example, if it's raining, we will take an umbrella, and put on a jacket.
 You can play with `if:` in the example below. Try adding an `otherwise: ` in where you can!
 
 
-    {conditional_example}
+    {ConditionalExample}
 
     if:
         in case ($bingo is hungry) then:
@@ -34,6 +34,12 @@ You can play with `if:` in the example below. Try adding an `otherwise: ` in whe
 
         in case ($harry is hungry) then:
             feed $harry
+
+        in case ($suzy is hungry) then:
+            feed $suzy
+
+        otherwise:
+            print "no hungry friends!"
 
     if:
         in case ($suzy is bored) then:
@@ -46,7 +52,7 @@ You can play with `if:` in the example below. Try adding an `otherwise: ` in whe
 `if:` can even be used to calculate a value. We could change the
 first `if:` statement in the example above to use `with $ as:` like so:
 
-    {conditional_example}
+    {ConditionalExample}
 
     with $hungry_friend as:
         if:
@@ -54,7 +60,20 @@ first `if:` statement in the example above to use `with $ as:` like so:
                 $bingo
             in case ($harry is hungry) then:
                 $harry
+            in case ($suzy is hungry) then:
+                $suzy
 
-    feed $hungry_friend
+    if:
+        in case $hungry_friend then:
+            feed $hungry_friend
+        otherwise:
+            print "no hungry friends!"
 
-Notice that `$hungry_friend` is set to the result of the `if:` command, which is determined by which friend is hungry.
+Notice that `$hungry_friend` is set to the result of the `if:` command, which is determined by which friend is hungry. If no
+friend is hungry, then `$hungry_friend` will not refer to anything,
+meaning the command body of `in case $hungry_friend then:` will not be run.
+
+You may also have noticed that we are only feeding one of our friends. This works well for the examples, because it lets
+us explore conditional commands, but it's not very nice. Could you
+modify the example above to feed each friend, but only when they're
+hungry?
