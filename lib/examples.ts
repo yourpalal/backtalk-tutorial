@@ -37,6 +37,7 @@ addExample({
 
 
 interface FriendMessages {
+    description: string;
     greeting: string;
 
     hungry: string;
@@ -56,7 +57,7 @@ class Friend {
     }
 
     toString(): string {
-        return JSON.stringify(this);
+        return this.messages.description;
     }
 
     getFed(): string {
@@ -87,6 +88,7 @@ class Friend {
 
 var friendsLib = Library.create()
     .ref("suzy", () => new Friend("Suzy", {
+        description: "suzy likes programming",
         greeting: "programming is fun!",
 
         hungry: "yum, thanks!",
@@ -97,6 +99,7 @@ var friendsLib = Library.create()
         getVideoGame: "weee!! pew pew pew"
     }))
     .ref("harry", () => new Friend("Harry", {
+        description: "harry likes to read",
         greeting: "reading is fun!",
 
         hungry: "om nom nom",
@@ -107,6 +110,7 @@ var friendsLib = Library.create()
         getVideoGame: "I hope this has a good story..."
     }))
     .ref("bingo", () => new Friend("doggy", {
+        description: "bingo likes going for walks",
         greeting: "woof!",
 
         hungry: "chomp chomp",

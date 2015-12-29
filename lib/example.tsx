@@ -56,8 +56,12 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
             let node = bt.compile(value, example.name);
             return bt.runForResult(example.name);
         }).then((result) => {
+            if (result === undefined || result === null || result.toString === undefined) {
+                result = "";
+            }
+
             this.setState({
-                result: result,
+                result: result.toString(),
                 err: null
             });
         }, (err) => {
@@ -137,11 +141,11 @@ export function injectExamples() {
     for (var i = 0; i < codes.length; i++) {
         let code = codes[i];
         let pre = code.parentNode; // markdown does <pre><code> for blocks
-        let match = code.innerText.match(/\s*{([^\s]*)}/);
+        let match = code.innerText.match(/\s*{([^\s]*)}[\n\s]+/);
         if (!match) {
             continue;
         }
-        let source = code.innerText.substr(match[0].length);
+        let source = code.innerText.substr(match[0].length).trim();
 
         let exampleName = match[1];
         // make a backtalk evaluator and set up the scope for the
