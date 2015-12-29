@@ -10,6 +10,7 @@ import * as examples from "./examples";
 
 
 export interface ExampleProps {
+    name: number;
     bt: Evaluator;
     example: examples.Example;
     source: string;
@@ -105,12 +106,13 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
     }
 
     render() {
-        let {bt, example, source} = this.props;
+        let {bt, example, source, name} = this.props;
         let {value, result, err} = this.state;
+        let editorName = `${example.name}_${name}`;
 
         return <div className="example">
             <button className="reset" onClick={() => this.resetCode()}>reset</button>
-            <EditorComponent key="editor" source={value} onChange={(v) => this.onCodeChange(v)} />
+            <EditorComponent name={editorName} source={value} onChange={(v) => this.onCodeChange(v)} />
             {!err ? "" :
                 <div className="errors">
                     <label>errors</label>
@@ -131,15 +133,15 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
 };
 
 export function injectExamples() {
-    let codes = document.getElementsByTagName("code");
+    let codes = Array.prototype.slice.apply(document.getElementsByTagName("code"));
     for (var i = 0; i < codes.length; i++) {
         let code = codes[i];
         let pre = code.parentNode; // markdown does <pre><code> for blocks
-        let match = codes[i].innerText.match(/\s*{([^\s]*)}/);
+        let match = code.innerText.match(/\s*{([^\s]*)}/);
         if (!match) {
             continue;
         }
-        let source = codes[i].innerText.substr(match[0].length);
+        let source = code.innerText.substr(match[0].length);
 
         let exampleName = match[1];
         // make a backtalk evaluator and set up the scope for the
@@ -156,6 +158,6 @@ export function injectExamples() {
         container.className = "editor";
         pre.parentNode.replaceChild(container, pre);
 
-        ReactDOM.render((<ExampleComponent example={example} bt={bt} source={source} />), container);
+        ReactDOM.render((<ExampleComponent example={example} bt={bt} source={source} name={i} />), container);
     }
 }
