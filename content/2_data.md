@@ -11,7 +11,7 @@ There are four basic types of data in BackTalk: numbers, text, booleans, and ref
 ## 1. Numbers
 A number in BackTalk is pretty much what you would expect. For instance, `5` is the number five. You can also do math in BackTalk, and it looks much like you're used to. Try out some math in the example below. Multiplication looks like `2 * 3` and division looks like `9 / 3`.
 
-    {SimpleExample}
+    -- SimpleExample
 
     (2 * 2) + (4 + 8) / 3
 
@@ -24,7 +24,7 @@ There are two booleans: `true`, and `false`. Like numbers, there is a kind of ma
  * Finally, you can combine `!`, `&`, and `|` together to make something as complicated as you want! Try it out in the example below.
 
 
-    {SimpleExample}
+    -- SimpleExample
 
     true &! false | true
 
@@ -32,7 +32,7 @@ There are two booleans: `true`, and `false`. Like numbers, there is a kind of ma
 ## 3. Text
 Text is a bunch of letters and numbers and things like that. In BackTalk, text looks like `"this"`. Notice that it begins and ends with quotation marks. Try editing the text in the example below.
 
-    {SimpleExample}
+    -- SimpleExample
 
     "wow!!!"
 
@@ -51,6 +51,6 @@ or any other bunch of letters and underscores, as long as it starts with a `$`.
 
 In the following example, you can use a reference to pick a friend to describe. Try switching `$suzy` for `$harry` or `$bingo` in the example below:
 
-    {SimpleExample}
+    -- SimpleExample
 
     $suzy

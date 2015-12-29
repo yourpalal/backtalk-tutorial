@@ -146,7 +146,7 @@ export function injectExamples() {
     for (var i = 0; i < codes.length; i++) {
         let code = codes[i];
         let pre = code.parentNode; // markdown does <pre><code> for blocks
-        let match = code.innerText.match(/\s*{([^\s]*)}[\n\s]+/);
+        let match = code.innerText.match(/\s*--\s*([^\s]*)[\n\s]+/);
         if (!match) {
             continue;
         }

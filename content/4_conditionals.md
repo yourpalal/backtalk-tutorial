@@ -26,7 +26,7 @@ In this example, if it's raining, we will take an umbrella, and put on a jacket.
 You can play with `if:` in the example below. Try adding an `otherwise: ` in where you can!
 
 
-    {ConditionalExample}
+    -- ConditionalExample
 
     if:
         in case ($bingo is hungry) then:
@@ -52,7 +52,7 @@ You can play with `if:` in the example below. Try adding an `otherwise: ` in whe
 `if:` can even be used to calculate a value. We could change the
 first `if:` statement in the example above to use `with $ as:` like so:
 
-    {ConditionalExample}
+    -- ConditionalExample
 
     with $hungry_friend as:
         if:

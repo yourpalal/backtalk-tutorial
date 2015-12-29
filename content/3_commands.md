@@ -29,7 +29,7 @@ There can be many commands available to you as you write BackTalk code. In the e
  Try it out and see what happens!
 
 
-    {CommandsExample}
+    -- CommandsExample
     print "BackTalk is fun!"
 
     with $my_dog as $bingo
@@ -45,7 +45,7 @@ In the example above, you may have noticed that you can use more than just refer
 the command is called a parameter. Check out the example below to
 see how we can use `print $` with different parameters.
 
-    {CommandsExample}
+    -- CommandsExample
     print "parameters are cool!"
     print 1
     print $suzy
@@ -65,7 +65,7 @@ commands it is given, and then sets the reference to whatever the result is. To 
 
 In the following example, `with $ as:` is used to set the reference $x to the result of a series of computations.
 
-    {CommandsExample}
+    -- CommandsExample
     with $me_and_bingo as:
         with $my_height as 160
         with $bingos_height as 30
