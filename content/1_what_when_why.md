@@ -1,6 +1,7 @@
 {
     "template": "page.html",
-    "next": ["2_data.md"]
+    "next": ["2_data.md"],
+    "previous": ["0_begin.md"]
 }
 
 # What is BackTalk?
