@@ -1,6 +1,6 @@
 {
     "template": "page.html",
-    "previous": ["3_actions.md"]
+    "previous": ["3_commands.md"]
 }
 
 # Conditionals
@@ -41,3 +41,20 @@ You can play with `if:` in the example below. Try adding an `otherwise: ` in whe
 
         in case ($harry is bored) then:
             give $harry a book
+
+
+`if:` can even be used to calculate a value. We could change the
+first `if:` statement in the example above to use `with $ as:` like so:
+
+    {conditional_example}
+
+    with $hungry_friend as:
+        if:
+            in case ($bingo is hungry) then:
+                $bingo
+            in case ($harry is hungry) then:
+                $harry
+
+    feed $hungry_friend
+
+Notice that `$hungry_friend` is set to the result of the `if:` command, which is determined by which friend is hungry.
