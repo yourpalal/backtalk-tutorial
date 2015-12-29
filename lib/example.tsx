@@ -72,6 +72,8 @@ export interface ExampleState {
 };
 
 export class ExampleComponent extends React.Component<ExampleProps, ExampleState> {
+    step: number = 0;
+
     constructor(props: ExampleProps, context) {
         super(props, context);
 
@@ -86,10 +88,15 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         value = value || this.state.value;
 
         let run = new ExampleRunner(this.props.example).run(value);
+        let step = ++this.step;
         run.then((result) => {
-                this.setState(result);
+                if (step == this.step) {
+                    this.setState(result);
+                }
             }, (err) => {
-                this.setState(err);
+                if (step == this.step) {
+                    this.setState(err);
+                }
             });
     }
 
