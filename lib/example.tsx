@@ -2,16 +2,64 @@
 /// <reference path="./typings/react-ace.d.ts"/>
 
 import {EditorComponent} from "./editor";
-import {Evaluator, Immediate, ParseError} from "backtalk";
+import {Evaluator, Immediate, ParseError, Scope} from "backtalk";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import {Promise} from "es6-promise";
 
 import * as examples from "./examples";
 
 
+export class ExampleRunner {
+    output: string[] = [];
+    result: any;
+    err: any;
+
+    bt: Evaluator;
+    scope: Scope;
+
+    constructor(public example: examples.Example) {
+        this.bt = new Evaluator();
+        this.scope = this.bt.scope;
+
+        example.prepareScope(this.scope);
+
+        // override stdout
+        this.scope.env.stdout = this;
+        this.scope.env.example = this;
+    }
+
+    run(code): Promise<ExampleState> {
+        let {bt, example} = this;
+
+        return new Promise<ExampleState>((resolve) => {
+            let node = bt.compile(code, example.name);
+            resolve(bt.runForResult(example.name));
+        }).then((result) => {
+            if (result === undefined || result === null || result.toString === undefined) {
+                result = "";
+            }
+
+            return {
+                result: result.toString(),
+                output: this.output,
+                err: null
+            };
+        }, (err) => ({
+            result: null,
+            err: err,
+            output: this.output
+        }));
+    }
+
+    write(s: any) {
+        this.output.push(s.toString());
+    }
+}
+
+
 export interface ExampleProps {
     name: number;
-    bt: Evaluator;
     example: examples.Example;
     source: string;
 };
@@ -32,50 +80,20 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
             value: props.source.trim(),
             output: []
         };
-
-        props.bt.scope.env["stdout"] = this;
-        props.bt.scope.env["example"] = this;
-    }
-
-    // api for examples
-    write(s: any) {
-        this.setState((state) => {
-            return {output: state.output.concat([s.toString()])};
-        });
     }
 
     updateResult(value?) {
         value = value || this.state.value;
 
-        this.setState({
-            output: []
-        });
-        let {bt, example} = this.props;
-
-        example.refreshScope(bt.scope);
-
-        Immediate.wrap(() => {
-            let node = bt.compile(value, example.name);
-            return bt.runForResult(example.name);
-        }).then((result) => {
-            if (result === undefined || result === null || result.toString === undefined) {
-                result = "";
-            }
-
-            this.setState({
-                result: result.toString(),
-                err: null
+        let run = new ExampleRunner(this.props.example).run(value);
+        run.then((result) => {
+                this.setState(result);
+            }, (err) => {
+                this.setState(err);
             });
-        }, (err) => {
-            this.setState({
-                result: null,
-                err: err
-            });
-        });
     }
 
     // events
-
     componentDidMount() {
         this.updateResult(this.props.source);
     }
@@ -112,7 +130,7 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
     }
 
     render() {
-        let {bt, example, source, name} = this.props;
+        let {example, source, name} = this.props;
         let {value, result, err} = this.state;
         let editorName = `${example.name}_${name}`;
 
@@ -156,9 +174,7 @@ export function injectExamples() {
         // make a backtalk evaluator and set up the scope for the
         // given example.
 
-        let bt = new Evaluator();
         let example = new examples[exampleName]();
-        example.prepareScope(bt.scope);
 
         // make an example component and mount it, replacing the
         // <code> element
@@ -167,6 +183,6 @@ export function injectExamples() {
         container.className = "editor";
         pre.parentNode.replaceChild(container, pre);
 
-        ReactDOM.render((<ExampleComponent example={example} bt={bt} source={source} name={i} />), container);
+        ReactDOM.render((<ExampleComponent example={example} source={source} name={i} />), container);
     }
 }

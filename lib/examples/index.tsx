@@ -9,7 +9,6 @@ import {ConditionalControl} from "./conditional_example";
 export interface Example {
     name: string;
     prepareScope(scope: Scope);
-    refreshScope(scope: Scope);
     makeExtras(rerun: Function): React.ReactElement<{key: string}> | string;
 
     showResult: boolean;
@@ -32,10 +31,6 @@ export class SimpleExample implements Example {
     makeExtras() {
         return "";
     }
-
-    refreshScope() {
-        return;
-    }
 }
 
 
@@ -47,10 +42,6 @@ export class CommandsExample implements Example {
 
     prepareScope(scope: Scope) {
         StdLib.inScope(scope);
-        friends.friendsLib.addToScope(scope);
-    }
-
-    refreshScope(scope: Scope) {
         friends.friendsLib.addToScope(scope);
     }
 
@@ -72,16 +63,12 @@ export class ConditionalExample implements Example {
 
     prepareScope(scope: Scope) {
         StdLib.inScope(scope);
-        friends.friendsLib.addToScope(scope);
-        friends.conditionalLib.addToScope(scope);
-    }
-
-    refreshScope(scope: Scope) {
         friends.friendsLib.addToScope(scope, {}, {
             suzy: Object.create(this.suzy),
             bingo: Object.create(this.bingo),
             harry: Object.create(this.harry),
         });
+        friends.conditionalLib.addToScope(scope);
     }
 
     makeExtras(rerun) {
