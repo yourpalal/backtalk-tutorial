@@ -57,6 +57,28 @@ export class ExampleRunner {
     }
 }
 
+interface ErrorProps {
+    err: any;
+}
+
+class ErrorComponent extends React.Component<ErrorProps, {}> {
+    render() {
+        let {err} = this.props;
+        if (!err) {
+            return null;
+        }
+
+        return (<div className="errors">
+            <label>errors</label>
+            {!(err instanceof ParseError) ? err.toString() :
+                <ul>{err.errors.map((e) =>
+                    <li key={e.line}>line {e.line}</li>
+                )}</ul>
+            }
+        </div>);
+    }
+}
+
 
 export interface ExampleProps {
     name: number;
@@ -120,22 +142,6 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
         this.updateResult(this.props.source);
     }
 
-    renderError() {
-        let {err} = this.state;
-
-        if (!err) {
-            return "";
-        }
-
-        if (!(err instanceof ParseError)) {
-            return err.toString();
-        }
-
-        return <ul>{err.errors.map((e) =>
-            <li key={e.line}>line {e.line}</li>
-        )}</ul>;
-    }
-
     render() {
         let {example, source, name} = this.props;
         let {value, result, err} = this.state;
@@ -147,11 +153,7 @@ export class ExampleComponent extends React.Component<ExampleProps, ExampleState
             </div>
             <button className="reset" onClick={() => this.resetCode()}>reset</button>
             <EditorComponent name={editorName} source={value} onChange={(v) => this.onCodeChange(v)} />
-            {!err ? "" :
-                <div className="errors">
-                    <label>errors</label>
-                    {this.renderError()}
-                </div>}
+            <ErrorComponent err={err} />
             {!example.showResult ? "": <div className="result" key="result">
                     <label htmlFor="result">result</label>
                     <output name="result">{result}</output>
