@@ -15,12 +15,15 @@
     </head>
     <body>
         <header>
-            <h1>BackTalk : {post.title}</h1>
+            <h1><a href="#">BackTalk <span>{post.title}</span></a></h1>
             <nav>{+nav}{/nav}</nav>
         </header>
         <main>
             {+content}{/content}
         </main>
+        <footer>
+            <nav>{+nav}{/nav}</nav>
+        </footer>
         <script src="/app.js"></script>
     </body>
 </html>

@@ -14,18 +14,43 @@ $light-grey: #EFEFEF;
 
 header {
     width: 100%;
-    color: $dark-neutral;
     border-bottom: thin solid $light-accent;
     background-image: url(background.png);
+    float: left;
+    clear: both;
+    margin-bottom: 1em;
 
-    text-align: center;
+    a {
+        color: $dark-calm;
+    }
 
     h1 {
+        float: left;
         font-size: 200%;
+        padding: 0;
+        margin: 0;
+
+        span {
+            display: block;
+            border-top: thin solid $dark-neutral;
+        }
     }
 
     nav a {
-        margin-right: 3em;
+        display: block;
+        text-align: right;
+    }
+}
+
+footer {
+    margin: 1em 0;
+    border-top: thin solid $light-accent;
+
+    a {
+        float: right;
+    }
+    a:first-child {
+        float: left;
     }
 }
 
@@ -34,6 +59,9 @@ article {
     padding-top: 2em;
 
     .md {
+        h1:first-of-type {
+            display: none;
+        }
         ul {
             @extend %default-ul;
         }
