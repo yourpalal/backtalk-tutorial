@@ -46,11 +46,17 @@ footer {
     margin: 1em 0;
     border-top: thin solid $light-accent;
 
-    a {
-        float: right;
-    }
     a:first-child {
         float: left;
+    }
+    
+    a:last-child {
+        float: right;
+    }
+
+    text-align: center;
+    a:only-child {
+        float: none;
     }
 }
 
