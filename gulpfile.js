@@ -110,7 +110,10 @@ gulp.task("squick", function() {
 
 gulp.task('deploy', ["squick", "styles", "extras", "scripts"], function() {
     return gulp.src(paths.out_src)
-        .pipe(ghPages());
+        .pipe(ghPages({
+            remoteURL: "git@github.com:yourpalal/backtalk-tutorial.git",
+            branch: "gh-pages"
+        }));
 });
 
 gulp.task("connect", function() {
