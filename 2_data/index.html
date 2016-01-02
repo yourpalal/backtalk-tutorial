@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>BackTalk : </title><meta name="description" content=""><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="../styles.css"><!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--></head><body><header><h1><a href="#">BackTalk <span>Data Types</span></a></h1><nav><a href="/1_what_when_why/">previous: What is BackTalk?</a><a href="/3_commands/">next: Commands</a></nav></header><main><article><div class="md"><h1 id="data-types">Data Types</h1>
+<p>There are four basic types of data in BackTalk: numbers, text, booleans, and references.</p>
+<h2 id="1-numbers">1. Numbers</h2>
+<p>A number in BackTalk is pretty much what you would expect. For instance, <code>5</code> is the number five. You can also do math in BackTalk, and it looks much like you&#39;re used to. Try out some math in the example below. Multiplication looks like <code>2 * 3</code> and division looks like <code>9 / 3</code>.</p>
+<pre><code>-- SimpleExample
+
+(2 * 2) + (4 + 8) / 3
+</code></pre><h2 id="2-booleans">2. Booleans</h2>
+<p>There are two booleans: <code>true</code>, and <code>false</code>. Like numbers, there is a kind of math that you can do with booleans.</p>
+<ul>
+<li>You can use <code>!</code> to negate them. <code>! true</code> is the same as <code>false</code>. Notice the space after the <code>!</code> this is required in BackTalk.</li>
+<li>You can also use <code>&amp;</code> (which is called &quot;and&quot;) to check if the first and second booleans are both true. <code>true &amp; true</code> is <code>true</code>, <code>true &amp; false</code> is not.  </li>
+<li>You can also use <code>|</code> (which is called &quot;or&quot;) to check if either the first or the second boolean is true. <code>true | true</code> is <code>true</code>, but <code>false | false</code> is not.</li>
+<li>Finally, you can combine <code>!</code>, <code>&amp;</code>, and <code>|</code> together to make something as complicated as you want! Try it out in the example below.</li>
+</ul>
+<pre><code>-- SimpleExample
+
+true &amp;! false | true
+</code></pre><h2 id="3-text">3. Text</h2>
+<p>Text is a bunch of letters and numbers and things like that. In BackTalk, text looks like <code>&quot;this&quot;</code>. Notice that it begins and ends with quotation marks. Try editing the text in the example below.</p>
+<pre><code>-- SimpleExample
+
+&quot;wow!!!&quot;
+</code></pre><h2 id="4-references">4. References</h2>
+<p>What is a references? A reference is like a name. A name tells you which thing I&#39;m talking about, but it isn&#39;t the thing itself. If I say, &quot;Suzy is an excellent computer programmer,&quot; then you know who I&#39;m talking about, because I used Suzy&#39;s name. References in BackTalk work the same way. A reference looks like this:</p>
+<pre><code>$suzy
+</code></pre><p>or this</p>
+<pre><code>$my_best_friend
+</code></pre><p>or any other bunch of letters and underscores, as long as it starts with a <code>$</code>.</p>
+<p>In the following example, you can use a reference to pick a friend to describe. Try switching <code>$suzy</code> for <code>$harry</code> or <code>$bingo</code> in the example below:</p>
+<pre><code>-- SimpleExample
+
+$suzy
+</code></pre></div class="md"></article></main><footer><nav><a href="/1_what_when_why/">previous: What is BackTalk?</a><a href="/3_commands/">next: Commands</a></nav></footer><script src="/app.js"></script></body></html>

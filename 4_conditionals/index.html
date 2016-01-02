@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>BackTalk : </title><meta name="description" content=""><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="../styles.css"><!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--></head><body><header><h1><a href="#">BackTalk <span>Conditionals</span></a></h1><nav><a href="/3_commands/">previous: Commands</a></nav></header><main><article><div class="md"><h1 id="conditionals">Conditionals</h1>
+<p>Sometimes, you want to check on something before deciding what to do. BackTalk can help you do this! There is a command called <code>if:</code> that lets you test something, and then run a command if the test passes.</p>
+<p>That could look something like this:</p>
+<pre><code>if:
+    in case (it is raining) then:
+        take the umbrella
+        put on a jacket
+
+    in case (it is sunny) then:
+        put on sunglasses
+
+    otherwise:
+        put on layers
+</code></pre><p>In this example, if it&#39;s raining, we will take an umbrella, and put on a jacket. If it&#39;s sunny, we will put on sunglasses. If it&#39;s raining and sunny, then we will take the umbrella and put on a jacket, but won&#39;t put on sunglasses. <code>if:</code> only does the first <code>in case $ then:</code> that it can. <code>if:</code> also provides an
+<code>otherwise:</code> command which will be run only if no cases match. In the example above, we use <code>otherwise:</code> to layer up in unrecognized weather.</p>
+<p>You can play with <code>if:</code> in the example below. Try adding an <code>otherwise:</code> in where you can!</p>
+<pre><code>-- ConditionalExample
+
+if:
+    in case ($bingo is hungry) then:
+        feed $bingo
+
+    in case ($harry is hungry) then:
+        feed $harry
+
+    in case ($suzy is hungry) then:
+        feed $suzy
+
+    otherwise:
+        print &quot;no hungry friends!&quot;
+
+if:
+    in case ($suzy is bored) then:
+        give $suzy a video game
+
+    in case ($harry is bored) then:
+        give $harry a book
+</code></pre><p><code>if:</code> can even be used to calculate a value. We could change the
+first <code>if:</code> statement in the example above to use <code>with $ as:</code> like so:</p>
+<pre><code>-- ConditionalExample
+
+with $hungry_friend as:
+    if:
+        in case ($bingo is hungry) then:
+            $bingo
+        in case ($harry is hungry) then:
+            $harry
+        in case ($suzy is hungry) then:
+            $suzy
+
+if:
+    in case $hungry_friend then:
+        feed $hungry_friend
+    otherwise:
+        print &quot;no hungry friends!&quot;
+</code></pre><p>Notice that <code>$hungry_friend</code> is set to the result of the <code>if:</code> command, which is determined by which friend is hungry. If no
+friend is hungry, then <code>$hungry_friend</code> will not refer to anything,
+meaning the command body of <code>in case $hungry_friend then:</code> will not be run.</p>
+<p>You may also have noticed that we are only feeding one of our friends. This works well for the examples, because it lets
+us explore conditional commands, but it&#39;s not very nice. Could you
+modify the example above to feed each friend, but only when they&#39;re
+hungry?</p>
+</div class="md"></article></main><footer><nav><a href="/3_commands/">previous: Commands</a></nav></footer><script src="/app.js"></script></body></html>

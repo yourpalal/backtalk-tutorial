@@ -1,0 +1,53 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>BackTalk : </title><meta name="description" content=""><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="../styles.css"><!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--></head><body><header><h1><a href="#">BackTalk <span>Commands</span></a></h1><nav><a href="/2_data/">previous: Data Types</a><a href="/4_conditionals/">next: Conditionals</a></nav></header><main><article><div class="md"><h1 id="commands">Commands</h1>
+<p>Commands let you tell BackTalk what to do. In BackTalk, they look sort of like sentences. One of the most commonly used commands in BackTalk is <code>with $ as $</code>. Here&#39;s an example of how you would use it:</p>
+<pre><code>with $my_dog as $bingo
+</code></pre><p>or you could use it like this:</p>
+<pre><code>with $my_best_friend as $suzy
+</code></pre><p>These two lines each set up a new reference. The first makes the reference <code>$my_dog</code> refer to the same thing as the reference <code>$bingo</code>. Remember, a reference is a name, so you now have two
+names for your dog Bingo. You can refer to Bingo as <code>$my_dog</code> or as <code>$bingo</code>. When we said <code>with $ as $</code> before, this was really a shorthand to tell you that there is a command that starts <code>with</code>, followed by a reference of your choosing, followed by <code>as</code>, and then another reference of your choosing.</p>
+<h2 id="other-commands">Other Commands</h2>
+<p>There can be many commands available to you as you write BackTalk code. In the example below, you can use the commands</p>
+<ul>
+<li><code>with $ as $</code></li>
+<li><code>say hi to $</code></li>
+<li><code>listen to $</code></li>
+<li><p><code>print $</code></p>
+<p>Try it out and see what happens!</p>
+</li>
+</ul>
+<pre><code>-- CommandsExample
+print &quot;BackTalk is fun!&quot;
+
+with $my_dog as $bingo
+say hi to $bingo
+say hi to $my_dog
+say hi to $suzy
+
+listen to $suzy
+</code></pre><h2 id="parameters">Parameters</h2>
+<p>In the example above, you may have noticed that you can use more than just references when giving a command. You can use any of the <a href="/2_data">BackTalk data types</a>. Whatever extra information you add to
+the command is called a parameter. Check out the example below to
+see how we can use <code>print $</code> with different parameters.</p>
+<pre><code>-- CommandsExample
+print &quot;parameters are cool!&quot;
+print 1
+print $suzy
+print true
+print (! true)
+
+with $x as 4
+print ($x + 4 * 7 - 4)
+</code></pre><p>Sometimes, you may be required to use parentheses <code>( )</code> to make it clear what is part of a command and what is a parameter. The best rule to follow is that if the parameter is any sort of calculation (like <code>3 + 4</code> or <code>$x &amp; false</code>), you should put parentheses around it.</p>
+<h2 id="command-bodies">Command Bodies</h2>
+<p>Some commands have a form that allows them to include a section of BackTalk code. <code>with $ as:</code> is an example of this. It runs all of the
+commands it is given, and then sets the reference to whatever the result is. To determine what lines of code belong to a command, BackTalk looks at the number of spaces at the start of the line. Anything with more spaces belongs to the most recent command that ends with <code>:</code>.</p>
+<p>In the following example, <code>with $ as:</code> is used to set the reference $x to the result of a series of computations.</p>
+<pre><code>-- CommandsExample
+with $me_and_bingo as:
+    with $my_height as 160
+    with $bingos_height as 30
+
+    $my_height + $bingos_height
+
+print $me_and_bingo
+</code></pre></div class="md"></article></main><footer><nav><a href="/2_data/">previous: Data Types</a><a href="/4_conditionals/">next: Conditionals</a></nav></footer><script src="/app.js"></script></body></html>
