@@ -1,17 +1,28 @@
 var gutil = require("gulp-util"),
     path = require("path");
 
+function postDest(post) {
+    if ("index.md" === path.basename(post.file.path)) {
+        // link the folder above index.md
+        return path.dirname(post.file.relative);
+    }
+
+    // link file/ so that it becomes file/index.html
+    return gutil.replaceExtension(post.file.relative, "");
+}
+
 module.exports.filters = {};
 
 module.exports.helpers = {
     linkto: function(chunk, context, bodies, params) {
         var post = params.post || context.current();
-        if ("index.md" === path.basename(post.file.path)) {
-            ext = ".html"; // just link the HTML output
-        } else {
-            ext = "/"; // link file/ so that it becomes file/index.html
+        var target = postDest(post);
+
+        var base = params.from;
+        if (!base) {
+            return "/" + target;
         }
 
-        return "/" + gutil.replaceExtension(post.file.relative, ext);
+        return path.relative(postDest(base), target);
     }
 };

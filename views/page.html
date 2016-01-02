@@ -9,6 +9,6 @@
 {/content}
 
 {<nav}
-    {@fetch as="page" paths=post.meta.previous}<a href="{@linkto:page /}">previous: {page.title}</a>{/fetch}
-    {@fetch as="page" paths=post.meta.next}<a href="{@linkto:page /}">next: {page.title}</a>{/fetch}
+    {@fetch as="page" paths=post.meta.previous}<a href="{@linkto:page from=post /}">previous: {page.title}</a>{/fetch}
+    {@fetch as="page" paths=post.meta.next}<a href="{@linkto:page from=post /}">next: {page.title}</a>{/fetch}
 {/nav}
