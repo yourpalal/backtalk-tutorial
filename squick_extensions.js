@@ -20,9 +20,19 @@ module.exports.helpers = {
 
         var base = params.from;
         if (!base) {
-            return "/" + target;
+            return target;
         }
 
         return path.relative(postDest(base), target);
+    },
+
+    resource: function(chunk, context, bodies, params) {
+        var url = path.relative("/", params.url);
+            // remove leading "/";
+
+        var post = params.from || context.get("post");
+        var postLocation = path.dirname(postDest(post));
+
+        return path.relative(postLocation, url);
     }
 };
