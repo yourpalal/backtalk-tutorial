@@ -173,11 +173,11 @@ export function injectExamples() {
     for (var i = 0; i < codes.length; i++) {
         let code = codes[i];
         let pre = code.parentNode; // markdown does <pre><code> for blocks
-        let match = code.innerText.match(/\s*--\s*([^\s]*)[\n\s]+/);
+        let match = code.textContent.match(/\s*--\s*([^\s]*)[\n\s]+/);
         if (!match) {
             continue;
         }
-        let source = code.innerText.substr(match[0].length).trim();
+        let source = code.textContent.substr(match[0].length).trim();
 
         let exampleName = match[1];
         // make a backtalk evaluator and set up the scope for the
