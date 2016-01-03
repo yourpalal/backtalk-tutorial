@@ -36,17 +36,17 @@ export class Friend {
     getBook(): string {
         if (this.bored) {
             this.bored = false;
-            return `${this.name}: ${this.messages.getBook}`;
+            return `${this.name}: "${this.messages.getBook}"`;
         }
-        return `${this.name}: ${this.messages.notBored}`;
+        return `${this.name}: "${this.messages.notBored}"`;
     }
 
     getVideoGame(): string {
         if (this.bored) {
             this.bored = false;
-            return `${this.name}: ${this.messages.getVideoGame}`;
+            return `${this.name}: "${this.messages.getVideoGame}`;
         }
-        return `${this.name}: ${this.messages.notBored}`;
+        return `${this.name}: "${this.messages.notBored}"`;
     }
 }
 
@@ -99,7 +99,7 @@ export var friendsLib = Library.create()
     .command("listen", ["listen to $:friend"])
         .impl((args, self) => {
             let friend = args.getObject("friend") as any;
-            self.scope.env.stdout.write(`${friend.name}: ${friend.messages.greeting}`);
+            self.scope.env.stdout.write(`${friend.name}: "${friend.messages.greeting}"`);
         })
     .done()
 ;
